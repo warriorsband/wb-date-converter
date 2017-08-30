@@ -73,7 +73,12 @@
         term = textParts[0];
         dayOfTerm = textParts[1];
 
-        if (!_.has(termStartDates, term) || !isFinite(dayOfTerm)) {
+        if (_.toInteger(dayOfTerm) === 0 || !isFinite(dayOfTerm)) {
+          errorSpan.innerHTML = 'Date does not match Warriors Band date format.';
+          return;
+        }
+
+        if (!_.has(termStartDates, term)) {
           errorSpan.innerHTML = 'Can\'t calculate Warriors Band dates for days in that term.';
           return;
         }
