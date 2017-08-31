@@ -6,6 +6,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" charset="utf-8"></script>
+    <script src="./convert.js" charset="utf-8"></script>
 
     <style>
       #error {
@@ -29,62 +30,28 @@
     </p>
 
     <script>
-      var termStartDates = {
-        '1171': moment('2017-01-03'),
-        '1175': moment('2017-05-01'),
-        '1179': moment('2017-09-07'),
-        '1181': moment('2018-01-03'),
-        '1185': moment('2018-05-01'),
-      };
-
       var dateInput = document.getElementById('dateInput');
       var textInput = document.getElementById('textInput');
       var errorSpan = document.getElementById('error');
 
       dateInput.addEventListener('input', function(e) {
-        errorSpan.innerHTML = '';
-        textInput.value = '';
-
-        date = moment(e.target.value);
-
-        var term = _.findLastKey(termStartDates, function(startDate) { return startDate <= date; });
-        var dayOfTerm = date.diff(termStartDates[term], 'days') + 1;
-
-        if (_.isUndefined(term)) {
-          errorSpan.innerHTML = 'Can\'t calculate Warriors Band dates for days in that term.';
-          return;
+        try {
+          textInput.value = toWarriorsBandDate(e.target.value);
+          errorSpan.innerHTML = '';
+        } catch (e) {
+          textInput.value = '';
+          errorSpan.innerHTML = e;
         }
-
-        textInput.value = term + '-' + dayOfTerm;
       });
 
       textInput.addEventListener('input', function(e) {
-        errorSpan.innerHTML = '';
-        dateInput.value = '';
-
-        textParts = _.split(e.target.value, '-');
-
-        if (_.size(textParts) !== 2) {
-          errorSpan.innerHTML = 'Date does not match Warriors Band date format.';
-          return;
+        try {
+          dateInput.value = moment(fromWarriorsBandDate(e.target.value)).format('YYYY-MM-DD');
+          errorSpan.innerHTML = '';
+        } catch (e) {
+          dateInput.value = '';
+          errorSpan.innerHTML = e;
         }
-
-        term = textParts[0];
-        dayOfTerm = textParts[1];
-
-        if (_.toInteger(dayOfTerm) === 0 || !isFinite(dayOfTerm)) {
-          errorSpan.innerHTML = 'Date does not match Warriors Band date format.';
-          return;
-        }
-
-        if (!_.has(termStartDates, term)) {
-          errorSpan.innerHTML = 'Can\'t calculate Warriors Band dates for days in that term.';
-          return;
-        }
-
-        date = moment(termStartDates[term]).add(_.toInteger(dayOfTerm) - 1, 'days');
-
-        dateInput.value = date.format('YYYY-MM-DD');
       });
 
       dateInput.value = moment().format('YYYY-MM-DD');
