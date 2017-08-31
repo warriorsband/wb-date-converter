@@ -41,14 +41,7 @@
       var textInput = document.getElementById('textInput');
       var errorSpan = document.getElementById('error');
 
-      var updateInput = true;
-
       dateInput.addEventListener('input', function(e) {
-        if (!updateInput) {
-          updateInput = true;
-          return;
-        }
-
         errorSpan.innerHTML = '';
         textInput.value = '';
 
@@ -66,11 +59,6 @@
       });
 
       textInput.addEventListener('input', function(e) {
-        if (!updateInput) {
-          updateInput = true;
-          return;
-        }
-
         errorSpan.innerHTML = '';
         dateInput.value = '';
 
