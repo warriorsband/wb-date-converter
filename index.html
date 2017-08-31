@@ -98,6 +98,9 @@
 
         dateInput.value = date.format('YYYY-MM-DD');
       });
+
+      dateInput.value = moment().format('YYYY-MM-DD');
+      dateInput.dispatchEvent(new Event('input'));
     </script>
   </body>
 </html>
