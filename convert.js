@@ -47,5 +47,13 @@ function fromWarriorsBandDate(dateString) {
     throw 'The start date of the ' + term + ' term is unknown.';
   }
 
-  return moment(termStartDates[term]).add(_.toInteger(dayOfTerm) - 1, 'days').toDate();
+  var date = moment(termStartDates[term]).add(_.toInteger(dayOfTerm) - 1, 'days');
+  var correctTerm = _.findLastKey(termStartDates, function(startDate) { return startDate <= date; });
+
+  if (term !== correctTerm) {
+    var correctDateString = correctTerm + '-' + (date.diff(termStartDates[correctTerm], 'days') + 1);
+    throw 'The Warriors Band date ' + dateString + ' should be written as ' + correctDateString + '.';
+  }
+
+  return date.toDate();
 }
