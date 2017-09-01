@@ -34,7 +34,6 @@ function fromWarriorsBandDate(dateString) {
 
   if (_.size(textParts) !== 2) {
     throw 'Date does not match Warriors Band date format.';
-    return;
   }
 
   var term = textParts[0];
@@ -42,12 +41,10 @@ function fromWarriorsBandDate(dateString) {
 
   if (_.toInteger(dayOfTerm) === 0 || !isFinite(dayOfTerm)) {
     throw 'Date does not match Warriors Band date format.';
-    return;
   }
 
   if (!_.has(termStartDates, term)) {
     throw 'Can\'t calculate Warriors Band dates for days in that term.';
-    return;
   }
 
   return moment(termStartDates[term]).add(_.toInteger(dayOfTerm) - 1, 'days').toDate();
