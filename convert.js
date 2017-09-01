@@ -17,7 +17,7 @@ var termStartDates = {
 };
 
 function toWarriorsBandDate(jsDate) {
-  date = moment(jsDate);
+  var date = moment(jsDate);
 
   var term = _.findLastKey(termStartDates, function(startDate) { return startDate <= date; });
   var dayOfTerm = date.diff(termStartDates[term], 'days') + 1;
@@ -30,15 +30,15 @@ function toWarriorsBandDate(jsDate) {
 }
 
 function fromWarriorsBandDate(dateString) {
-  textParts = _.split(dateString, '-');
+  var textParts = _.split(dateString, '-');
 
   if (_.size(textParts) !== 2) {
     throw 'Date does not match Warriors Band date format.';
     return;
   }
 
-  term = textParts[0];
-  dayOfTerm = textParts[1];
+  var term = textParts[0];
+  var dayOfTerm = textParts[1];
 
   if (_.toInteger(dayOfTerm) === 0 || !isFinite(dayOfTerm)) {
     throw 'Date does not match Warriors Band date format.';
