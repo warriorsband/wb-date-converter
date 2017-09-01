@@ -23,7 +23,7 @@ function toWarriorsBandDate(jsDate) {
   var dayOfTerm = date.diff(termStartDates[term], 'days') + 1;
 
   if (_.isUndefined(term)) {
-    throw 'Can\'t calculate Warriors Band dates for days in that term.';
+    throw 'This date is in an academic term for which the start date is unknown.';
   }
 
   return term + '-' + dayOfTerm;
@@ -33,18 +33,18 @@ function fromWarriorsBandDate(dateString) {
   var textParts = _.split(dateString, '-');
 
   if (_.size(textParts) !== 2) {
-    throw 'Date does not match Warriors Band date format.';
+    throw 'Warriors Band dates must contain exactly one dash.';
   }
 
   var term = textParts[0];
   var dayOfTerm = textParts[1];
 
   if (_.toInteger(dayOfTerm) === 0 || !isFinite(dayOfTerm)) {
-    throw 'Date does not match Warriors Band date format.';
+    throw 'Warriors Band dates must have a positive number after the dash.';
   }
 
   if (!_.has(termStartDates, term)) {
-    throw 'Can\'t calculate Warriors Band dates for days in that term.';
+    throw 'The start date of the ' + term + ' term is unknown.';
   }
 
   return moment(termStartDates[term]).add(_.toInteger(dayOfTerm) - 1, 'days').toDate();
