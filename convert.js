@@ -17,6 +17,11 @@ var termStartDates = {
   '1189': moment('2018-09-06'),
   '1191': moment('2019-01-07'),
   '1195': moment('2019-05-06'),
+  '1199': moment('2019-09-04'),
+  '1219': moment('2021-09-08'),
+  '1221': moment('2022-01-05'),
+  '1225': moment('2022-05-02'),
+  
 };
 
 function toWarriorsBandDate(jsDate) {
